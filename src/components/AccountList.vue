@@ -17,7 +17,7 @@
               name="trash-alt"
               small
               color="error"
-              @click="() => removeItem(index)">
+              @click="() => deleteAccount()">
               Delete
             </v-icon>
           </td>
@@ -32,8 +32,8 @@ export default {
   name: "AccountList",
 
   methods: {
-    removeItem() {
-      this.$store.accounts("removeAppointment", this.index);
+    deleteAccount() {
+      this.$store.commit("deleteAccount", this.index);
     }, 
     
   },

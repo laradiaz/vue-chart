@@ -7,27 +7,24 @@
 
 <script>
 import { Timeline } from "vis-timeline/standalone";
+import {mapGetters} from "vuex";
+import moment from 'moment';
+
 export default {
   data() {
     return {
       timeline: undefined,
-      groups: [
-        {
-          id: [0, 1, 2, 3, 4, 5, 6],
-          content: "",
-        },
-      ],
-
-      dataLoaded: null,
     };
   },
   computed: {
     items() {
-      return this.$store.state.accounts;
-    }
+      return this.getAccounts;
+      console.log("getAccounts")
+    },
+    ...mapGetters (["getAccounts"])
   },
   async mounted() {
-    await this.dataLoaded;
+    await this.accounts;
     
     const options = {
       orientation: "top",
@@ -39,12 +36,13 @@ export default {
     };
     const container = document.getElementById("visualization");
     this.timeline = new Timeline(container, this.items, options);
-    const { min, max } = timeline.getItemRange();
-    a0 = 10;
-    a100 = moment.duration(moment(max).diff(moment(min))).asMilliseconds();
-    distance = (a100 - a0) / 100;
+    const { min, max } = this.timeline.getItemRange();
 
-    timeline.on("rangechanged", function ({ start, end }) {
+    const a0 = 10;
+    const a100 = moment.duration(moment(max).diff(moment(min))).asMilliseconds();
+    const distance = (a100 - a0) / 100;
+
+    this.timeline.on("rangechanged", function ({ start, end }) {
       console.log(start.toString(), end.toString());
       start = moment(start);
       end = moment(end);
@@ -53,16 +51,12 @@ export default {
     });
 
     this.$store.subscribe((mutation, state) => {
-      console.log(mutation, state);
       if (mutation.type === 'newAccount') {
-        this.timeline.items(state.accounts);
+        this.timeline.setItems(state.accounts);
         this.timeline.redraw();
       }
     });
-  },
-  watch() {
-    this.$store.state.accounts();
-  },
+  }
 };
 </script>
 <style>

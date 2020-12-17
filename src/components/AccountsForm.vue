@@ -153,12 +153,11 @@ export default {
           start: `${this.date}, ${this.start}:00`,
           end: `${this.date}, ${this.end}:00`,
           id: this.$store.getters.accountsLength+1,
-        }); console.log(this.$store.getters.accountsLength)
+        }); 
+        
+        console.log(this.$store.getters.accountsLength)
 
-        this.content = "";
-        this.date = "";
-        this.start = "";
-        this.end = "";
+     
       }
     },
   },

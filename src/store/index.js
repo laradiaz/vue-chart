@@ -17,13 +17,18 @@ export default new Vuex.Store({
     getters: {
         accountsLength(state) {
             return state.accounts.length
+        },
+        getAccounts(state) {
+            return state.accounts
         }
     },
     mutations: {
         newAccount(state, payload) {
             state.accounts.push(payload)
         },
-       
+        deleteAccount(state, { index }) {
+            state.accounts.splice(index, 1);
+        }
     },
     actions: {},
     modules: {}
