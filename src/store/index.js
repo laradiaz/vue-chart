@@ -6,37 +6,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         accounts: [
-            {
-                firstName: 'Alvarado, Eduardo Alfonso',
-                startTime: '9:30',
-                endTime: '10:30',
-            },
-            {
-                firstName: 'Acuña López, Juliana',
-                startTime: '11:00',
-                endTime: '12.30',
-            },
-            {
-                firstName: 'Arenales, Ingrid Lorena',
-                startTime: '12:30',
-                endTime: '13:30',
-            },
-            {
-                firstName: 'Barreto ruíz, Aldana',
-                startTime: '13:30',
-                endTime: '16:00',
-            },
-            {
-                firstName: 'Buitrado Lozano, Daniel Esteban',
-                startTime: '16:30',
-                endTime: '17:30',
-            },
-            {
-                firstName: 'Delgado, Ángel David',
-                startTime: '17:30',
-                endTime: '19:00',
-            }
+            { id: 1, content: "Alvarado, Eduardo Alfonso", start: "2020-12-04, 09:30:00", end: "2020-12-04, 10:30:00" },
+            { id: 2, content: "Acuña López, Juliana", start: "2020-12-04, 11:00:00", end: "2020-12-04, 12:30:00" },
+            { id: 3, content: "Arenales, Ingrid Lorena", start: "2020-12-04, 12:30:00", end: "2020-12-04, 13:30:00" },
+            { id: 4, content: "Barreto ruíz, Aldana", start: "2020-12-04, 13:30:00", end: "2020-12-04, 16:00:00" },
+            { id: 5, content: "Buitrado Lozano, Daniel Esteban", start: "2020-12-04, 16:30:00", end: "2020-12-04, 17:30:00" },
+            { id: 6, content: "Delgado, Ángel David", start: "2020-12-04, 17:30:00", end: "2020-12-04, 19:00:00" },
         ]
+    },
+    getters: {
+        accountsLength(state) {
+            return state.accounts.length
+        }
     },
     mutations: {
         newAccount(state, payload) {

@@ -4,9 +4,9 @@
     <v-row>
       <v-col cols="12" lg="3">
         <v-text-field
-          v-model="firstName"
-          :error-messages="firstNameErrors"
-          @input="$v.firstName.$touch()"
+          v-model="content"
+          :error-messages="contentErrors"
+          @input="$v.content.$touch()"
           :counter="30"
           label="Nombre"
           required
@@ -44,28 +44,28 @@
 
       <v-col cols="12" lg="1">
         <v-dialog
-          ref="dialogStartTime"
-          v-model="startTimeOpen"
-          :return-value.sync="startTime"
+          ref="dialogStart"
+          v-model="startOpen"
+          :return-value.sync="start"
           persistent
           width="290px"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              v-model="startTime"
+              v-model="start"
               label="Desde"
               prepend-icon="mdi-clock-time-four-outline"
-              @input="$v.startTime.$touch()"
+              @input="$v.start.$touch()"
               readonly
               outlined
               v-bind="attrs"
               v-on="on"
             ></v-text-field>
           </template>
-          <v-time-picker v-if="startTimeOpen" v-model="startTime" full-width>
+          <v-time-picker v-if="startOpen" v-model="start" full-width>
             <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="startTimeOpen = false"> Cancel </v-btn>
-            <v-btn text color="primary" @click="$refs.dialogStartTime.save(startTime)">
+            <v-btn text color="primary" @click="startOpen = false"> Cancel </v-btn>
+            <v-btn text color="primary" @click="$refs.dialogStart.save(start)">
               OK
             </v-btn>
           </v-time-picker>
@@ -74,17 +74,17 @@
 
       <v-col cols="12" lg="1">
         <v-dialog
-          ref="dialogEndTime"
-          v-model="endTimeOpen"
-          :return-value.sync="endTime"
+          ref="dialogEnd"
+          v-model="endOpen"
+          :return-value.sync="end"
           persistent
           width="290px"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              v-model="endTime"
+              v-model="end"
               label="Hasta"
-              @input="$v.endTime.$touch()"
+              @input="$v.end.$touch()"
               prepend-icon="mdi-clock-time-four-outline"
               readonly
               outlined
@@ -92,10 +92,10 @@
               v-on="on"
             ></v-text-field>
           </template>
-          <v-time-picker v-if="endTimeOpen" v-model="endTime" full-width>
+          <v-time-picker v-if="endOpen" v-model="end" full-width>
             <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="endTimeOpen = false"> Cancel </v-btn>
-            <v-btn text color="primary" @click="$refs.dialogEndTime.save(endTime)">
+            <v-btn text color="primary" @click="endOpen = false"> Cancel </v-btn>
+            <v-btn text color="primary" @click="$refs.dialogEnd.save(end)">
               OK
             </v-btn>
           </v-time-picker>
@@ -117,48 +117,48 @@ export default {
   mixins: [validationMixin],
 
   validations: {
-    firstName: { required },
+    content: { required },
   },
 
   data: () => ({
-    firstName: "",
+    content: "",
     date: new Date().toISOString().substr(0, 7),
     menu: false,
     modal: false,
     time: null,
     menu2: false,
-    startTimeOpen: false,
-    endTimeOpen: false,
+    startOpen: false,
+    endOpen: false,
   }),
 
   computed: {
-    firstNameErrors() {
+    contentErrors() {
       const errors = [];
-      if (!this.$v.firstName.$dirty) return errors;
-      !this.$v.firstName.required && errors.push("Nombre requerido");
+      if (!this.$v.content.$dirty) return errors;
+      !this.$v.content.required && errors.push("Nombre requerido");
       return errors;
     },
   },
 
   methods: {
     reset() {
-      this.firstName = "";
+      this.content = "";
     },
 
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         this.$store.commit("newAccount", {
-          firstName: this.firstName,
-          date: this.date,
-          startTime: this.startTime,
-          endTime: this.endTime,
-        });
+          content: this.content,
+          start: `${this.date}, ${this.start}:00`,
+          end: `${this.date}, ${this.end}:00`,
+          id: this.$store.getters.accountsLength+1,
+        }); console.log(this.$store.getters.accountsLength)
 
-        this.firstName = "";
+        this.content = "";
         this.date = "";
-        this.startTime = "";
-        this.endTime = "";
+        this.start = "";
+        this.end = "";
       }
     },
   },

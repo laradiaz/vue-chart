@@ -11,17 +11,9 @@ export default {
   data() {
     return {
       timeline: undefined,
-      items: [
-        { id: 1, content: "Alvarado, Eduardo Alfonso", start: "2020-12-04, 09:30:00", end: "2020-12-04, 10:30:00" },
-        { id: 2, content: "Acuña López, Juliana", start: "2020-12-04, 11:00:00", end: "2020-12-04, 12:30:00" },
-        { id: 3, content: "Arenales, Ingrid Lorena", start: "2020-12-04, 12:30:00", end: "2020-12-04, 13:30:00" },
-        { id: 4, content: "Barreto ruíz, Aldana", start: "2020-12-04, 13:30:00", end: "2020-12-04, 16:00:00" },
-        { id: 5, content: "Buitrado Lozano, Daniel Esteban", start: "2020-12-04, 16:30:00", end: "2020-12-04, 17:30:00" },
-        { id: 6, content: "Delgado, Ángel David", start: "2020-12-04, 17:30:00", end: "2020-12-04, 19:00:00" },
-      ],
       groups: [
         {
-          id: [0, 1, 2, 3 , 4, 5, 6,],
+          id: [0, 1, 2, 3, 4, 5, 6],
           content: "",
         },
       ],
@@ -29,9 +21,14 @@ export default {
       dataLoaded: null,
     };
   },
+  computed: {
+    items() {
+      return this.$store.state.accounts;
+    }
+  },
   async mounted() {
     await this.dataLoaded;
-
+    
     const options = {
       orientation: "top",
       itemsAlwaysDraggable: true,
@@ -53,6 +50,14 @@ export default {
       end = moment(end);
       const duration = moment.duration(end.diff(start));
       const mins = duration.asMilliseconds();
+    });
+
+    this.$store.subscribe((mutation, state) => {
+      console.log(mutation, state);
+      if (mutation.type === 'newAccount') {
+        this.timeline.items(state.accounts);
+        this.timeline.redraw();
+      }
     });
   },
   watch() {

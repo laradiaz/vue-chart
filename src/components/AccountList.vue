@@ -4,14 +4,14 @@
       <thead>
         <tr>
           <th class="text-left">Nombre</th>
-          <th class="text-left">Hora</th>
+          <th class="text-left">Fecha</th>
           <th class="text-left">Acción</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in accounts" :key="item.email">
-          <td>{{ item.firstName }}</td>
-          <td>{{ item.startTime }} - {{item.endTime}}</td>
+        <tr v-for="item in accounts" :key="item.id">
+          <td>{{ item.content }}</td>
+          <td>{{ item.start }}</td>
           <td>
             <v-icon
               name="trash-alt"
@@ -34,13 +34,13 @@ export default {
   methods: {
     removeItem() {
       this.$store.accounts("removeAppointment", this.index);
-    },
+    }, 
     
   },
-
+ 
   computed: {
     accounts() {
-      return this.$store.state.accounts;
+     return this.$store.state.accounts;
     },
   },
 };
