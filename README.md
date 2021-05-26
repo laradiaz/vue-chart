@@ -1,4 +1,4 @@
-# test
+# Vue Chart App
 
 ## Project setup
 ```
